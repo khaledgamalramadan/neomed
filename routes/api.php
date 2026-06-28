@@ -38,7 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/admin/faqs', AdminFaqController::class);
 
     // Contacts
-    Route::get('/admin/contacts', [ContactController::class, 'index']);
-    Route::get('/admin/contacts/{id}', [ContactController::class, 'show']);
-    Route::delete('/admin/contacts/{id}', [ContactController::class, 'destroy']);
+    Route::get('/admin/contacts', [AdminContactController::class, 'index']);
+    Route::get('/admin/contacts/{id}', [AdminContactController::class, 'show']);
+    Route::delete('/admin/contacts/{id}', [AdminContactController::class, 'destroy']);
 });
