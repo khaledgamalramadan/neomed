@@ -60,16 +60,23 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
         $request->validate([
-            'name'        => 'sometimes|string',
+            'name' => 'sometimes|string',
             'description' => 'nullable|string',
-            'price'       => 'sometimes|numeric',
-            'images'      => 'nullable|array',
-            'images.*'    => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+            'price' => 'sometimes|numeric',
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
         $product->update($request->only('name', 'description', 'price'));
 
         if ($request->hasFile('images')) {
+            // امسح الصور القديمة كلها من الـ Storage والـ Database
+            foreach ($product->images as $oldImage) {
+                Storage::disk('public')->delete($oldImage->image_path);
+                $oldImage->delete();
+            }
+
+            // أضف الصور الجديدة
             foreach ($request->file('images') as $image) {
                 $path = $image->store('products', 'public');
                 ProductImage::create([
