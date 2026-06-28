@@ -11,16 +11,15 @@ ENV AUTORUN_LARAVEL_VIEW_CACHE=true
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy application files (with correct permissions)
-COPY --chown=webuser:webuser . .
-
-# Create required Laravel directories before composer install
+# Create required Laravel directories before copying files
 RUN mkdir -p storage/framework/cache/data \
     storage/framework/sessions \
     storage/framework/views \
     storage/logs \
-    bootstrap/cache \
-    && chown -R webuser:webuser storage bootstrap/cache
+    bootstrap/cache
+
+# Copy application files (with correct permissions)
+COPY --chown=webuser:webuser . .
 
 # Install Composer dependencies
 RUN composer install --no-interaction --optimize-autoloader --no-dev
