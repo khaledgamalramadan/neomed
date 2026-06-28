@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => explode(',', env('CORS_ALLOWED_ORIGINS', 'https://neomed-capsule.vercel.app,http://localhost:3000,http://localhost:5173,http://localhost:8000')),
+    'allowed_origins' => ['https://neomed-capsule.vercel.app/'],
 
     'allowed_origins_patterns' => [],
 
