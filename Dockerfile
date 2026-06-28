@@ -14,6 +14,14 @@ WORKDIR /var/www/html
 # Copy application files (with correct permissions)
 COPY --chown=webuser:webuser . .
 
+# Create required Laravel directories before composer install
+RUN mkdir -p storage/framework/cache/data \
+    storage/framework/sessions \
+    storage/framework/views \
+    storage/logs \
+    bootstrap/cache \
+    && chown -R webuser:webuser storage bootstrap/cache
+
 # Install Composer dependencies
 RUN composer install --no-interaction --optimize-autoloader --no-dev
 
